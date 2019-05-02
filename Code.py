@@ -5,10 +5,8 @@ import tweepy
 import json
 import requests
 from requests_oauthlib import OAuth1
-import sqlite3
 import pandas as pd
 from pandas.io.json import json_normalize
-from sqlalchemy import create_engine
 
 
 # OAuth credentials provided by API developer
@@ -22,8 +20,7 @@ url1 = "https://api.twitter.com/1.1/trends/available.json"
 url2 = "https://api.twitter.com/1.1/trends/place.json?id="
 auth = OAuth1(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET)
 
-country = input("What country are you interested in seeing trending twitter topics for?:")
-print(country)
+country = 'Canada'
 
 # load json response from "GET trends/available" into dataframe representing WOEID's belonging
 # to twitter topics
@@ -45,4 +42,4 @@ for i in list:
     data2 = json.loads(response2.text)
     result = json_normalize(data2)
     df2 = df2.append(pd.DataFrame.from_dict(result, orient='columns'))
-df2.to_csv('my_csv.csv', mode = 'a', index=False)
+df2.to_csv('my_csv.csv', mode = 'a', header=False, index=False)

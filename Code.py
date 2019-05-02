@@ -7,6 +7,8 @@ import requests
 from requests_oauthlib import OAuth1
 import pandas as pd
 from pandas.io.json import json_normalize
+import sqlite3
+
 
 
 # OAuth credentials provided by API developer
@@ -24,10 +26,9 @@ country = 'Canada'
 
 # load json response from "GET trends/available" into dataframe representing WOEID's belonging
 # to twitter topics
-response = requests.get(url1, auth=auth)
-data= json.loads(response.text)
-df1 = pd.DataFrame.from_dict(data, orient='columns')
-
+r = requests.get(url1, auth=auth)
+raw = json.loads(r.content)
+df1 = pd.DataFrame.from_dict(raw, orient='columns')
 list = []
 for i in range(len(df1)):
     if df1['country'][i] == country:
@@ -35,11 +36,14 @@ for i in range(len(df1)):
 
 print("The woeid's associated with " + country + " are:")
 print(list)
-list_df = []
 df2 = pd.DataFrame([])
+df3 = pd.DataFrame([])
 for i in list:
     response2 = requests.get(url2 + str(i), auth=auth)
     data2 = json.loads(response2.text)
     result = json_normalize(data2)
     df2 = df2.append(pd.DataFrame.from_dict(result, orient='columns'))
-df2.to_csv('my_csv.csv', mode = 'a', header=False, index=False)
+    df3 = df3.append(df2['trends'].apply(pd.Series))
+df_row = pd.concat([df2, df3])
+print(df_row)
+export_csv = df3.to_csv('my_csv.csv', mode = 'a', header=False, index=False)

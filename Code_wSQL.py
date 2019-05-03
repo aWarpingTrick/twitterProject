@@ -32,19 +32,20 @@ auth = OAuth1(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET)
 sqlite_file = 'C:/Users/warin/Desktop/APIs/Git Hub/Twitterproject/my_db.sqlite'
 table_name = 'Twitter_Top_50_Trending_Topics_Across_Canada'
 column_1 = 'City'
+column_11 = 'Woeid'
 column_2 = 'Name'
 column_3 = 'Tweet_Volume'
 column_typeT = 'TEXT'
 column_typeI = 'INTEGER'
 
 
-con = sqlite3.connect('C:/Users/warin/Desktop/APIs/Git Hub/twitterProject/my_db2.db')
+con = sqlite3.connect('C:/Users/warin/Desktop/APIs/Git Hub/twitterProject/my_db4.db')
 print("Opened database successfully")
 
 # Connecting to the database file
 c = con.cursor()
 
-c.execute('''CREATE TABLE IF NOT EXISTS table_name (column_1 KEY, column_2 VARCRCHAR(100), column_3 INTEGER DEFAULT 0);''')
+c.execute('''CREATE TABLE IF NOT EXISTS table_name (column_11 KEY, column_1 VARCRCHAR(100), column_2 VARCRCHAR(100), column_3 INTEGER DEFAULT 0);''')
 # Create a new SQLite table with 1 column
 # c.execute("ALTER TABLE {tn} ADD COLUMN '{cn1}' {ct}".format(tn=table_name,
 #     cn1 = column_1, ct= column_typeT))
@@ -75,14 +76,17 @@ for k,v in mydict.items():
     # is named 'trends' and contains a list of 50 dictionaries containing
     # 'name' and 'tweet_number' key, value pairs associated with a provided
     # WOEID
-    print(len(v))
-    c.execute('''INSERT INTO table_name (column_1) VALUES (?)''', (v,))
+    # c.execute('''INSERT INTO table_name (column_1) VALUES (?)''', (v,))
     for elem in data2:
         d = elem['trends']
         for j in range(len(d)):
             a = d[j]['name']
+            print(a)
             b = d[j]['tweet_volume']
-            c.execute('''INSERT INTO table_name(column_2, column_3) VALUES (a, b)''')
+            print(b)
+            c.execute('''INSERT INTO table_name (column_11, column_1, column_2, column_3) VALUES (?, ?, ?, ?)''', (k, v, a, b))
+        print('\n \n \n')
+con.commit()
 con.close()
 # The dictionary entries include each top 50 trend topic and it's associated
 # tweet volume within the time frame provided by Twitter API

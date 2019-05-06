@@ -17,12 +17,15 @@ in a dictionary.
 6. Iterate through dictionary and use WOEIDs as inputs into second JSON request to url2 to
 retrieve trend topic data and insert these values into our SQL database rows.
 
-7. Commite changes to our database and close.
+7. Commit changes to our database and close.
 
-8. Repeat this script automatically from Windows Task Scheduler daily with a batch file.
+8. Connect our SQL database to POWER BI so we can visualize our results.
+
+9.. Repeat this script automatically from Windows Task Scheduler daily with a batch file.
 
 --- --- --- --- ---
-9. Go into SQL database and recogqnize NULL Values.  Replace NULL values with average tweet_volume amount ~ 20,000.
+10. Go into SQL database and recogqnize NULL Values.  Replace NULL values with average tweet_volume amount ~ 20,000.
 
-10. Combine tweet topics into master categories such as ie. #kyderby, #Kentuckyderby, Kentucky Derby, KentuckyDerby149 can be combined.
-  10 a. This process could perhaps be automated using a Levenshtein distance algorithm.
+11. Combine tweet topics into master categories such as ie. #kyderby, #Kentuckyderby, Kentucky Derby, KentuckyDerby149 can be combined.
+  11 a. This process could perhaps be automated using a Levenshtein distance algorithm.
+
